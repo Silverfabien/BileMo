@@ -1,9 +1,9 @@
 <?php
 
-namespace AppBundle;
+namespace BileMoBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class AppBundle extends Bundle
+class BileMoBundle extends Bundle
 {
 }

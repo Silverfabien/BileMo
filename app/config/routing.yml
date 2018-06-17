@@ -1,3 +1,8 @@
-app:
-    resource: '@AppBundle/Controller/'
-    type: annotation
+bile_mo_route:
+    resource: "@BileMoBundle/Resources/config/routing.yml"
+    prefix:   /
+
+bile_mo:
+    resource: '@BileMoBundle/Controller/'
+    type:     annotation
+    prefix:   /
