@@ -32,4 +32,12 @@ Pour créer la BDD faites cette commande :
 
     php bin/console doctrine:database:create
     
+Ensuite faites cette commande pour ajouter les tables :
+
+    php bin/console doctrine:schema:update --force
+    
+Puis ajouter les données correspondante au site en ajoutant les **Fixture**
+
+    php bin/console doctrine:fixtures:load
+    
 ---
