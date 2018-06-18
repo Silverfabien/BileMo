@@ -3,26 +3,31 @@
 namespace BileMoBundle\Controller;
 
 use BileMoBundle\Entity\Phone;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class PhoneController extends Controller
 {
     /**
-     * @Route("/", name="bile_mo_homepage")
+     * @Rest\Get("/", name="bile_mo_homepage")
+     *
+     * @View()
      */
-    public function indexAction()
+    public function listPhonesAction()
     {
-        $phones = $this->getDoctrine()->getManager()->getRepository('BileMoBundle:Phone')->findAll();
-
-        return $this->render('@BileMo/Default/index.html.twig', ['phones' => $phones]);
+        $phones = $this->getDoctrine()->getRepository('BileMoBundle:Phone')->findAll();
+        return $phones;
     }
 
     /**
-     * @Route("/{slug}", name="bile_mo_phone_view")
+     * @Get(path="/phone/{slug}", name="bile_mo_phone_view", requirements={"id"="\d+"})
+     *
+     * @View()
      */
-    public function phoneViewAction(Phone $phone)
+    public function ViewPhoneAction(Phone $phone)
     {
-        return $this->render('@BileMo/Default/view.html.twig', ['phone' => $phone]);
+        return $phone;
     }
 }

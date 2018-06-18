@@ -348,7 +348,7 @@ class Phone
      */
     public function setSlug($slug)
     {
-        $this->slug = $slug;
+        $this->slug = $this->slugify($slug);
 
         return $this;
     }
