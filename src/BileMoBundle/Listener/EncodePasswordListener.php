@@ -68,12 +68,12 @@ class EncodePasswordListener
      */
     public function encodePassword(User $entity, PasswordEncoderInterface $passwordEncoder)
     {
-        if(!$entity->getPassword())
+        if(!$entity->getPlainPassword())
         {
             return;
         }
 
-        $encoded = $passwordEncoder->encodePassword($entity->getPassword(), $entity->getSalt());
+        $encoded = $passwordEncoder->encodePassword($entity->getPlainPassword(), $entity->getSalt());
         $entity->setPassword($encoded);
     }
 }

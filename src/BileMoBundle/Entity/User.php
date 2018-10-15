@@ -35,9 +35,13 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=255)
-     * @Assert\NotBlank(message="Veuillez renseigné votre Mot de passe")
      */
     private $password;
+
+    /**
+     * @Assert\NotBlank(message="Veuillez renseigné votre Mot de passe")
+     */
+    private $plainPassword;
 
     /**
      * @var string
@@ -46,6 +50,11 @@ class User implements UserInterface
      */
     private $apiKey;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="salt", type="string", length=255, nullable=true)
+     */
     private $salt;
 
     /**
@@ -107,6 +116,29 @@ class User implements UserInterface
     }
 
     /**
+     * Get plainPassword
+     *
+     * @return string
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * Set plainPassword
+     *
+     * @param mixed $plainPassword
+     * @return User
+     */
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
+    /**
      * Set apiKey
      *
      * @param string $apiKey
@@ -137,7 +169,7 @@ class User implements UserInterface
 
     public function eraseCredentials()
     {
-
+        $this->plainPassword = null;
     }
 
     public function getSalt()
