@@ -4,6 +4,7 @@ namespace BileMoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
@@ -26,6 +27,7 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="username", type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigné votre Pseudo")
      */
     private $username;
 
@@ -33,6 +35,7 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigné votre Mot de passe")
      */
     private $password;
 
@@ -42,6 +45,8 @@ class User implements UserInterface
      * @ORM\Column(name="apiKey", type="string", length=255)
      */
     private $apiKey;
+
+    private $salt;
 
     /**
      * Get id
@@ -137,6 +142,11 @@ class User implements UserInterface
 
     public function getSalt()
     {
-        return null;
+        return $this->salt;
+    }
+
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
     }
 }
