@@ -3,14 +3,22 @@
 security:
 
     encoders:
-        Symfony\Component\Security\Core\User\UserInterface: plaintext
+        BileMoBundle\Entity\User:
+            algorithm: bcrypt
 
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
+        chain_provider:
+            chain:
+                providers: [api_key, user]
         api_key:
             entity:
                 class: BileMoBundle\Entity\User
                 property: apiKey
+        user:
+            entity:
+                class: BileMoBundle\Entity\User
+                property: username
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
@@ -32,4 +40,14 @@ security:
                     - lexik_jwt_authentication.jwt_token_authenticator
 
         main:
+            pattern: ^/
             anonymous: true
+            guard:
+                authenticators:
+                    - user.security.bile_mo_user_authenticator
+            logout:
+                path: /logout
+            switch_user: ~
+            remember_me:
+                secret: '%secret%'
+                lifetime: 604800
