@@ -2,6 +2,7 @@
 
 namespace BileMoBundle\Security;
 
+use BileMoBundle\Form\LoginType;
 use BileMoBundle\Form\UserType;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -75,7 +76,7 @@ class BileMoUserAuthenticator extends AbstractGuardAuthenticator
      */
     public function getCredentials(Request $request)
     {
-        $loginForm = $this->formFactory->create(UserType::class);
+        $loginForm = $this->formFactory->create(LoginType::class);
         $loginForm->handleRequest($request);
 
         if($loginForm->isSubmitted() && $loginForm->isValid())
@@ -112,7 +113,7 @@ class BileMoUserAuthenticator extends AbstractGuardAuthenticator
             $request->getSession()->getFlashBag()->add('danger', $exception->getMessage());
         }
 
-        return new RedirectResponse($this->router->generate('connexion_page'));
+        return new RedirectResponse($this->router->generate('bile_mo_login_page'));
     }
 
     /**
@@ -137,7 +138,7 @@ class BileMoUserAuthenticator extends AbstractGuardAuthenticator
      */
     public function start(Request $request, AuthenticationException $authException = null)
     {
-        return new RedirectResponse($this->router->generate('connexion_page'));
+        return new RedirectResponse($this->router->generate('bile_mo_login_page'));
     }
 
     /**
