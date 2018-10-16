@@ -57,6 +57,12 @@ class User implements UserInterface
      */
     private $salt;
 
+    public function __construct()
+    {
+        $key = md5(uniqid(random_int(10, 10), true));
+        $this->apiKey = $key;
+    }
+
     /**
      * Get id
      *
@@ -180,5 +186,7 @@ class User implements UserInterface
     public function setSalt($salt)
     {
         $this->salt = $salt;
+
+        return $this;
     }
 }
