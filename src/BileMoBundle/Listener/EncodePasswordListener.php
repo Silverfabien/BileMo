@@ -3,12 +3,13 @@
 namespace BileMoBundle\Listener;
 
 use BileMoBundle\Entity\User;
+use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Component\Security\Core\Encoder\BCryptPasswordEncoder;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 
-class EncodePasswordListener
+class EncodePasswordListener implements EventSubscriber
 {
     private $encoderFactory;
 
@@ -19,7 +20,7 @@ class EncodePasswordListener
 
     public function getSubscribedEvents()
     {
-        return ['prePersist', 'preUpdate'];
+        return [ 'prePersist', 'preUpdate' ];
     }
 
     public function prePersist(LifecycleEventArgs $args)
