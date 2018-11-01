@@ -20,7 +20,6 @@ class PhoneFixtures extends Fixture
                 'La description du Galaxy S9+ à mettre ici ...',
                 '700',
                 '6',
-                'galaxy-s9-plus'
             ],
             [
                 'Galaxy S9',
@@ -31,7 +30,6 @@ class PhoneFixtures extends Fixture
                 'La description du Galaxy S9 à mettre ici ...',
                 '600',
                 '2',
-                'galaxy-s9'
             ],
             [
                 'Iphone X',
@@ -42,7 +40,6 @@ class PhoneFixtures extends Fixture
                 'La description de l\Iphone X à mettre ici ...',
                 '980',
                 '12',
-                'iphone-x'
             ],
             [
                 'Iphone 8 Plus',
@@ -53,11 +50,10 @@ class PhoneFixtures extends Fixture
                 'La description de l\'Iphone 8 Plus à mettre ici ...',
                 '680',
                 '5',
-                'iphone-8-plus'
             ]
         ];
 
-        foreach($phoneData as list($name, $mark, $systemVersion, $memory, $color, $description, $price, $quantity, $slug))
+        foreach($phoneData as list($name, $mark, $systemVersion, $memory, $color, $description, $price, $quantity))
         {
             $phone = new Phone();
             $phone->setName($name);
@@ -68,7 +64,6 @@ class PhoneFixtures extends Fixture
             $phone->setDescription($description);
             $phone->setPrice($price);
             $phone->setQuantity($quantity);
-            $phone->setSlug($slug);
 
             $manager->persist($phone);
             $manager->flush();
