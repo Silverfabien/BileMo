@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            <h1>Formulaire de connexion</h1>
+            <div class="container form-group">
+                {{ form_start(registerForm, {'attr': {'novalidate': 'novalidate'}}) }}
+                {{ form_widget(registerForm) }}
+                <button type="submit">Se connecter</button>
+                {{ form_end(registerForm) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

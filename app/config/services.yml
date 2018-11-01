@@ -33,3 +33,18 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+
+    jwt.token_authenticator:
+        class: BileMoBundle\Security\BileMoTokenAuthenticator
+        autowire: true
+
+    user.security.bile_mo_user_authenticator:
+        class: BileMoBundle\Security\BileMoUserAuthenticator
+        arguments: ['@doctrine.orm.entity_manager', '@form.factory', '@security.user_password_encoder.generic', '@router']
+        public: true
+
+    user.listener.encode_password_listener:
+        class: BileMoBundle\Listener\EncodePasswordListener
+        arguments: ['@security.encoder_factory']
+        tags:
+            - { name: doctrine.event_subscriber }
