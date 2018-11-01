@@ -70,6 +70,8 @@ swiftmailer:
 fos_rest:
     body_converter:
         enabled: true
+        validate: true
+        validation_errors_argument: violations
     view:
         formats: { json: true, xml: false, rss: false }
         view_response_listener: true
@@ -80,6 +82,11 @@ fos_rest:
             - { path: '^/api', priorities: ['json'], fallback_format: 'json' }
             - { path: '^/phone', priorities: ['json'], fallback_format: 'json' }
             - { path: '^/', priorities: ['html'], fallback_format: 'html' }
+    exception:
+        enabled: true
+        codes:
+          { BileMoBundle\Exception\ResourceValidationException: 400 }
+        exception_controller: 'fos_rest.exception.controller:showAction'
 
 lexik_jwt_authentication:
     private_key_path: '%jwt_private_key_path%'
