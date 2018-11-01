@@ -6,12 +6,21 @@ use BileMoBundle\Entity\Phone;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class PhoneController extends Controller
 {
     /**
-     * @Rest\Get("/", name="bile_mo_homepage")
+     * @Route("/", name="bile_mo_accueil_page")
+     */
+    public function indexAction()
+    {
+        return $this->render('@BileMo/Default/accueil.html.twig');
+    }
+
+    /**
+     * @Rest\Get("/api", name="bile_mo_homepage")
      *
      * @View()
      */
@@ -22,7 +31,7 @@ class PhoneController extends Controller
     }
 
     /**
-     * @Get(path="/phone/{slug}", name="bile_mo_phone_view", requirements={"id"="\d+"})
+     * @Get(path="/api/phone/{id}", name="bile_mo_phone_view", requirements={"id"="\d+"})
      *
      * @View()
      */
