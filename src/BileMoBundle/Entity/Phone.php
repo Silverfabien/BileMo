@@ -2,70 +2,94 @@
 
 namespace BileMoBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Phone
+ *
+ * @ORM\Table(name="phone")
+ * @ORM\Entity(repositoryClass="BileMoBundle\Repository\PhoneRepository")
  */
 class Phone
 {
     /**
      * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="mark", type="string", length=255)
      */
     private $mark;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="system_version", type="string", length=255)
      */
     private $systemVersion;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="memory", type="string", length=255)
      */
     private $memory;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="color", type="string", length=255)
      */
     private $color;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="description", type="text")
      */
     private $description;
 
     /**
      * @var int
+     *
+     * @ORM\Column(name="price", type="integer")
      */
     private $price;
 
     /**
      * @var int
+     *
+     * @ORM\Column(name="quantity", type="integer")
      */
     private $quantity;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="created", type="datetime")
      */
     private $created;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="updated", type="datetime", nullable=true)
      */
     private $updated;
-
-    /**
-     * @var string
-     */
-    private $slug;
 
     public function __construct()
     {
@@ -321,46 +345,4 @@ class Phone
     {
         return $this->updated;
     }
-
-    public function slugify($text)
-    {
-        $text = preg_replace('#[^\\pL\d]+#u', '-', $text);
-        $text = trim($text, '-');
-        if(function_exists('iconv'))
-        {
-            $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
-        }
-        $text = strtolower($text);
-        $text = preg_replace('#[^-\w]+#', '', $text);
-        if(empty($text))
-        {
-            return 'n-a';
-        }
-        return $text;
-    }
-
-    /**
-     * Set slug
-     *
-     * @param string $slug
-     *
-     * @return Phone
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = $this->slugify($slug);
-
-        return $this;
-    }
-
-    /**
-     * Get slug
-     *
-     * @return string
-     */
-    public function getSlug()
-    {
-        return $this->slug;
-    }
 }
-
