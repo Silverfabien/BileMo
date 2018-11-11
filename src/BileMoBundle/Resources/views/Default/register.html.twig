@@ -1,13 +1,16 @@
-{% extends 'base.html.twig' %}
+{% extends 'baseLight.html.twig' %}
 {% block body %}
 
     <div class="container">
         <div class="row">
-            <h1>Formulaire de connexion</h1>
+            <h1>Formulaire d'inscription</h1>
             <div class="container form-group">
                 {{ form_start(registerForm, {'attr': {'novalidate': 'novalidate'}}) }}
-                {{ form_widget(registerForm) }}
-                <button type="submit">Se connecter</button>
+                {{ form_errors(registerForm) }}
+                {{ form_row(registerForm.username, {'attr': {'class': 'form-control'}}) }}
+                {{ form_row(registerForm.email, {'attr': {'class': 'form-control'}}) }}
+                {{ form_row(registerForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
+                <br><button type="submit" class="btn btn-info">S'inscrire</button>
                 {{ form_end(registerForm) }}
             </div>
         </div>
