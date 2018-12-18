@@ -112,7 +112,7 @@ class BileMoUserAuthenticator extends AbstractGuardAuthenticator
             $request->getSession()->getFlashBag()->add('danger', $exception->getMessage());
         }
 
-        return new RedirectResponse($this->router->generate('bile_mo_login_page'));
+        return new RedirectResponse($this->router->generate('bile_mo_login'));
     }
 
     /**
@@ -126,7 +126,7 @@ class BileMoUserAuthenticator extends AbstractGuardAuthenticator
         }
         if($targetPath === null)
         {
-            $targetPath = $this->router->generate('bile_mo_accueil_page');
+            $targetPath = $this->router->generate('bile_mo_index');
         }
 
         return new RedirectResponse($targetPath);
@@ -137,7 +137,7 @@ class BileMoUserAuthenticator extends AbstractGuardAuthenticator
      */
     public function start(Request $request, AuthenticationException $authException = null)
     {
-        return new RedirectResponse($this->router->generate('bile_mo_login_page'));
+        return new RedirectResponse($this->router->generate('bile_mo_login'));
     }
 
     /**
