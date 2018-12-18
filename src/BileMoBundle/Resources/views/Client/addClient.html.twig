@@ -1,0 +1,14 @@
+{% extends 'baseLight.html.twig' %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <h1>Formulaire d'ajout d'un client</h1>
+            <div class="container form-group">
+                {{ form_start(addClient) }}
+                {{ form_widget(addClient) }}
+                <button type="submit" class="btn btn-success">Ajouter le client</button>
+                {{ form_end(addClient) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

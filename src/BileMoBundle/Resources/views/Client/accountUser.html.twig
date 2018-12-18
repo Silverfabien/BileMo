@@ -1,0 +1,39 @@
+{% extends 'baseLight.html.twig' %}
+{% block body %}
+    <div class="container">
+        <h4>Profil utilisateur:</h4>
+        <p><b>Identifiant :</b> {{ accountUser.id }}</p>
+        <p><b>Pseudo :</b> {{ accountUser.fullName }}</p>
+        <p><b>Email :</b> {{ accountUser.email }}</p>
+        <p><b>Country :</b> {{ accountUser.country }}</p>
+        <p><b>City :</b> {{ accountUser.city }}</p>
+        <p><b>Address :</b> {{ accountUser.address }}</p>
+        <p><b>Utilisateur :</b> {{ accountUser.user.username }}</p>
+    </div>
+
+    <div class="container">
+        <p>
+            <button class="btn btn-danger" href="/delete" title="Supprimer mon compte" onclick="afficher_delete_masque()">Supprimer mon compte</button>
+        </p>
+        <div id="delete" style="display: none">
+            <div class="container">
+                <h1>Êtes vous sûr de vouloir supprimer votre compte ?</h1><br>
+                <p>Cette action est irréversible</p>
+                <div class="container form-group">
+                    {{ form_start(deleteClient) }}
+                    <button type="submit" class="btn btn-danger">Supprimer le client</button>
+                    {{ form_end(deleteClient) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+        function afficher_delete_masque() {
+            var toto = document.getElementById("delete");
+            toto.style.display = "block";
+        }
+    </script>
+
+{% endblock %}

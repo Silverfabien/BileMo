@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'baseLight.html.twig' %}
 {% block body %}
 
     <div class="container">
@@ -6,8 +6,11 @@
             <h1>Formulaire de connexion</h1>
             <div class="container form-group">
                 {{ form_start(loginForm, {'attr': {'novalidate': 'novalidate'}}) }}
-                {{ form_widget(loginForm) }}
-                <button type="submit">Se connecter</button>
+                {{ form_errors(loginForm) }}
+                {{ form_row(loginForm.username, {'attr': {'class': 'form-control'}}) }}
+                {{ form_row(loginForm.password, {'attr': {'class': 'form-control'}}) }}
+                {{ form_row(loginForm._remember_me) }}
+                <button type="submit" class="btn btn-info">Se connecter</button>
                 {{ form_end(loginForm) }}
             </div>
         </div>

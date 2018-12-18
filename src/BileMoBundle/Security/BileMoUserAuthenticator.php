@@ -82,7 +82,6 @@ class BileMoUserAuthenticator extends AbstractGuardAuthenticator
         if($loginForm->isSubmitted() && $loginForm->isValid())
         {
             $data = $loginForm->getData();
-            dump($data);
             $request->getSession()->set(Security::LAST_USERNAME, $data['username']);
 
             return $data;
@@ -127,7 +126,7 @@ class BileMoUserAuthenticator extends AbstractGuardAuthenticator
         }
         if($targetPath === null)
         {
-            $targetPath = $this->router->generate('bile_mo_homepage');
+            $targetPath = $this->router->generate('bile_mo_accueil_page');
         }
 
         return new RedirectResponse($targetPath);

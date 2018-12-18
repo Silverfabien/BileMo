@@ -101,31 +101,6 @@ class UserController extends Controller
             'regenerate_api_key' => $regenerateApiKeyForm->createView()]);
     }
 
-    /**
-     * @Route("/liste_des_membres", name="bile_mo_list_member_page")
-     */
-    public function listUserAction()
-    {
-        #$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY', null, "Vous devez être connecté pour acceder à cette page !");
-
-        $user = $this->getDoctrine()->getManager()->getRepository(User::class);
-        $listMembers = $user->findAll();
-
-        return $this->render('@BileMo/Default/listMember.html.twig', ['listMembers' => $listMembers]);
-    }
-
-    /**
-     * @Route("/liste_des_membres/{username}", name="bile_mo_user_account_page")
-     */
-    public function userAccountAction($username)
-    {
-        #$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY', null, "Vous devez être connecté pour acceder à cette page !");
-
-        $accountUser = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $username]);
-
-        return $this->render('@BileMo/Default/accountUser.html.twig', ['accountUser' => $accountUser]);
-    }
-
     public function createDeleteForm(User $user)
     {
         return $this->createFormBuilder()

@@ -1,0 +1,52 @@
+{% extends 'baseLight.html.twig' %}
+{% block body %}
+    <div class="container">
+        <h4>Profil utilisateur:</h4>
+        <p><b>Identifiant :</b> {{ app.user.id }}</p>
+        <p><b>Pseudo :</b> {{ app.user.username }}</p>
+        <p><b>Email :</b> {{ app.user.email }}</p>
+        <p><b>Clé d'Api :</b> {{ app.user.apiKey }} {{ form_start(regenerate_api_key) }}<button class="btn btn-primary">Régénérer ma clé d'Api</button></p>{{ form_end(regenerate_api_key) }}
+    </div>
+    <hr>
+    <div class="container">
+        <p>
+            <button class="btn btn-warning" href="#Modification" title="Modifier ses informations" onclick="afficher_div_masque()">Modifier mon compte</button>
+            <button class="btn btn-danger" href="#Suppression" title="Supprimer mon comtpe" onclick="afficher_delete_masque()">Supprimer mon compte</button>
+        </p>
+        <div id="edit" style="display: none">
+            <div class="container">
+                <div class="row">
+                    <h1>Modifier mon profil</h1>
+                    <div class="container form-group">
+                        {{ form_start(edit_form) }}
+                        {{ form_row(edit_form.username, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_row(edit_form.email, {'attr': {'class': 'form-control'}}) }}
+                        <br><button type="submit" class="btn btn-info">Envoyé</button>
+                        {{ form_end(edit_form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="delete" style="display: none">
+                <h1>Êtes-vous sur de vouloir supprimer votre compte ?</h1>
+                <div class="container form-group">
+                    {{ form_start(delete_form) }}
+                    <p>Cette action est irréversible. <button type="submit" class="btn btn-danger">Oui, supprimer mon compte</button></p>
+                    {{ form_end(delete_form) }}
+                </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+
+    <script type="text/javascript">
+        function afficher_div_masque() {
+            var divAccount = document.getElementById("edit");
+            divAccount.style.display = "block";
+        }
+        function afficher_delete_masque() {
+            var divAccount = document.getElementById("delete");
+            divAccount.style.display = "block";
+        }
+    </script>
+{% endblock %}

@@ -33,14 +33,18 @@ class User implements UserInterface
 
     /**
      * @var string
+     * @ORM\Column(name="email", type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez rensingé votre Email")
+     */
+    private $email;
+
+    /**
+     * @var string
      *
      * @ORM\Column(name="password", type="string", length=255)
      */
     private $password;
 
-    /**
-     * @Assert\NotBlank(message="Veuillez renseigné votre Mot de passe")
-     */
     private $plainPassword;
 
     /**
@@ -59,8 +63,7 @@ class User implements UserInterface
 
     public function __construct()
     {
-        $key = md5(uniqid(random_int(10, 10), true));
-        $this->apiKey = $key;
+        $this->generateApiKey();
     }
 
     /**
@@ -95,6 +98,22 @@ class User implements UserInterface
     public function getUsername()
     {
         return $this->username;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
     }
 
     /**
@@ -144,16 +163,9 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * Set apiKey
-     *
-     * @param string $apiKey
-     *
-     * @return User
-     */
-    public function setApiKey($apiKey)
+    public function generateApiKey()
     {
-        $this->apiKey = $apiKey;
+        $this->apiKey = md5(uniqid(random_int(10, 10), true));
 
         return $this;
     }

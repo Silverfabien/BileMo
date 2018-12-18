@@ -37,7 +37,6 @@ class BileMoTokenAuthenticator extends AbstractGuardAuthenticator
         {
             return;
         }
-        dump($userProvider);
         return $userProvider->loadUserByUsername($apiKey);
     }
 
