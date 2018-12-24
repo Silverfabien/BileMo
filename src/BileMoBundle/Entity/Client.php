@@ -3,12 +3,39 @@
 namespace BileMoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * Client
  *
  * @ORM\Table(name="client")
  * @ORM\Entity(repositoryClass="BileMoBundle\Repository\ClientRepository")
+ *
+ * @Hateoas\Relation(
+ *     "self",
+ *     href=@Hateoas\Route(
+ *         "bile_mo_client_show",
+ *         parameters={"id" = "expr(object.getId())"},
+ *         absolute=true
+ *     )
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "create",
+ *     href=@Hateoas\Route(
+ *         "bile_mo_client_add",
+ *         absolute=true
+ *     )
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "delete",
+ *     href=@Hateoas\Route(
+ *         "bile_mo_client_remove",
+ *         parameters={"id" = "expr(object.getId())"},
+ *         absolute=true
+ *     )
+ * )
  */
 class Client
 {
