@@ -11,11 +11,34 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\ConstraintViolationList;
+use Swagger\Annotations as SWG;
 
 class ApiController extends Controller
 {
     /**
-     * @Route("/api/token", name="bile_mo_api_token")
+     * Creating the token via the ApiKey in the User table
+     *
+     * Recovery of the ApiKey in the User table and put in the X-AUTH-TOKEN header for the generation of the Token valid for a duration of 1 hour
+     *
+     * @Route("/api/token", name="bile_mo_api_token", methods={"GET"})
+     *
+     * @SWG\Parameter(
+     *     name="X-AUTH-TOKEN",
+     *     in="header",
+     *     type="string",
+     *     description="Generating the Token from ApiKey"
+     * )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Token",
+     *     @SWG\Schema(
+     *          type="object",
+     *          @SWG\Property(property="jwtToken", type="string")
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Authentication")
      */
     public function newTokenAction(UserInterface $user, JWTTokenManagerInterface $jwtManager)
     {

@@ -94,3 +94,13 @@ lexik_jwt_authentication:
     pass_phrase:      '%jwt_key_pass_phrase%'
     token_ttl:        '%jwt_token_ttl%'
     user_identity_field: apiKey
+
+nelmio_api_doc:
+    areas:
+        path_patterns:
+            - ^/api
+    documentation:
+        info:
+            title: Documention API BileMo
+            description: Présentation de tous les points d'api
+            version: '1.0'

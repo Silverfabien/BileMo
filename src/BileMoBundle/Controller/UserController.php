@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends Controller
 {
     /**
-     * @Route("/login", name="bile_mo_login_page")
+     * @Route("/login", name="bile_mo_login")
      */
     public function loginAction()
     {
@@ -32,7 +32,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/register", name="bile_mo_register_page")
+     * @Route("/register", name="bile_mo_register")
      */
     public function registerAction(Request $request)
     {
@@ -46,7 +46,7 @@ class UserController extends Controller
             $formRegister->persist($user);
             $formRegister->flush();
 
-            return $this->redirectToRoute('bile_mo_login_page', ['id' => $user->getId()]);
+            return $this->redirectToRoute('bile_mo_login', ['id' => $user->getId()]);
         }
 
         return $this->render('@BileMo/Default/register.html.twig', ['user' => $user, 'registerForm' => $form->createView()]);
@@ -57,7 +57,7 @@ class UserController extends Controller
      */
     public function accountAction(Request $request, User $user)
     {
-        #$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY', null, "Vous devez être connecté pour acceder à cette page !");
+        #$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY', null, "You must be logged in to access this page !");
 
         /** PARTIE EDIT */
 
@@ -70,7 +70,7 @@ class UserController extends Controller
             return $this->redirectToRoute('bile_mo_account_page', ['username' => $user->getUsername()]);
         }
 
-        /** Regération du ApiKey */
+        /** Regénération du ApiKey */
         $regenerateApiKeyForm = $this->createFormBuilder()->getForm();
         $regenerateApiKeyForm->handleRequest($request);
 
@@ -82,30 +82,6 @@ class UserController extends Controller
             return $this->redirectToRoute('bile_mo_account_page', ['username' => $user->getUsername()]);
         }
 
-        /** PARTIE DELETE */
-
-        $deleteForm = $this->createDeleteForm($user);
-        $deleteForm->handleRequest($request);
-
-        if($deleteForm->isSubmitted() && $deleteForm->isValid())
-        {
-            $formDelete = $this->getDoctrine()->getManager();
-            session_destroy();
-            $formDelete->remove($user);
-            $formDelete->flush();
-
-            return $this->redirectToRoute('bile_mo_accueil_page');
-        }
-
-        return $this->render('@BileMo/Default/account.html.twig', ['edit_form' => $editForm->createView(), 'delete_form' => $deleteForm->createView(),
-            'regenerate_api_key' => $regenerateApiKeyForm->createView()]);
-    }
-
-    public function createDeleteForm(User $user)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('bile_mo_account_page', ['username' => $user->getUsername()]))
-            ->setMethod('DELETE')
-            ->getForm();
+        return $this->render('@BileMo/Default/account.html.twig', ['edit_form' => $editForm->createView(), 'regenerate_api_key' => $regenerateApiKeyForm->createView()]);
     }
 }
