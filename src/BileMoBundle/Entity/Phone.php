@@ -3,12 +3,22 @@
 namespace BileMoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * Phone
  *
  * @ORM\Table(name="phone")
  * @ORM\Entity(repositoryClass="BileMoBundle\Repository\PhoneRepository")
+ *
+ * @Hateoas\Relation(
+ *     "self",
+ *     href = @Hateoas\Route(
+ *          "bile_mo_phone_view",
+ *          parameters = { "id" = "expr(object.getId())" },
+ *          absolute = true
+ *     )
+ * )
  */
 class Phone
 {
@@ -83,13 +93,6 @@ class Phone
      * @ORM\Column(name="created", type="datetime")
      */
     private $created;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="updated", type="datetime", nullable=true)
-     */
-    private $updated;
 
     public function __construct()
     {
@@ -320,29 +323,5 @@ class Phone
     public function getCreated()
     {
         return $this->created;
-    }
-
-    /**
-     * Set updated
-     *
-     * @param \DateTime $updated
-     *
-     * @return Phone
-     */
-    public function setUpdated($updated)
-    {
-        $this->updated = $updated;
-
-        return $this;
-    }
-
-    /**
-     * Get updated
-     *
-     * @return \DateTime
-     */
-    public function getUpdated()
-    {
-        return $this->updated;
     }
 }
