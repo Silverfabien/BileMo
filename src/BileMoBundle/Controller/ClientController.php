@@ -4,85 +4,183 @@ namespace BileMoBundle\Controller;
 
 use BileMoBundle\Entity\Client;
 use BileMoBundle\Form\ClientType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\Controller\FOSRestController;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class ClientController extends Controller
+class ClientController extends FOSRestController
 {
-
     /**
-     * @Route("/api/client", name="bile_mo_list_client_page")
+     * Viewing the list of Clients linked to a User
+     *
+     * Access to the API with Token generated from the ApiKey on the route => /api/token
+     *
+     * @Rest\Get("/api/client", name="bile_mo_client_list")
+     *
+     * @SWG\Parameter(
+     *     name="Authorization",
+     *     in="header",
+     *     type="string",
+     *     description="Bearer Token"
+     * )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Display of the Customer list linked to the User",
+     *     @SWG\Schema(
+     *          type="object",
+     *          @SWG\Property(property="jwtToken", type="string")
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Client")
+     *
+     * @Rest\View()
      */
-    public function listClientAction(UserInterface $user)
+    public function listAction(UserInterface $user)
     {
-        #$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY', null, "Vous devez être connecté pour acceder à cette page !");
+        $repository = $this->getDoctrine()->getRepository(Client::class);
+        $client = $repository->findBy(['user' => $user]);
 
-        $em = $this->getDoctrine()->getManager();
-        $client = $em->getRepository(Client::class)->findBy(['user' => $user]);
-
-        return $this->render('@BileMo/Client/listMember.html.twig', ['listMembers' => $client]);
+        return $client;
     }
 
     /**
-     * @Route("/api/client/{id}", name="bile_mo_client_account_page")
+     * Viewing the details of a Client linked to the User
+     *
+     * Access to the API with Token generated from the ApiKey on the route => /api/token
+     *
+     * @Rest\Get("/api/client/{id}", name="bile_mo_client_show")
+     *
+     * @SWG\Parameter(
+     *     name="Authorization",
+     *     in="header",
+     *     type="string",
+     *     description="Bearer Token"
+     * )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Viewing Customer Details",
+     *     @SWG\Schema(
+     *          type="object",
+     *          @SWG\Property(property="jwtToken", type="string")
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Client")
+     *
+     * @Rest\View()
      */
-    public function clientAccountAction(UserInterface $user, Request $request, Client $client, $id)
+    public function showAction(UserInterface $user, $id)
     {
-        #$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY', null, "Vous devez être connecté pour acceder à cette page !");
+        $repository = $this->getDoctrine()->getRepository(Client::class);
+        $client = $repository->findOneBy([
+            'user' => $user,
+            'id' => $id
+        ]);
 
-        $em = $this->getDoctrine()->getManager();
-        $userClient = $em->getRepository(Client::class)->findOneBy(['user' => $user, 'id' => $id]);
-
-        if($userClient === null)
+        if($client === null)
         {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException('Erreur 404\r\n Une erreur est survenue, la page que vous avez demandé n\'existe pas');
         }
 
-        $deleteForm = $this->createDeleteForm($client);
-        $deleteForm->handleRequest($request);
-
-        if($deleteForm->isSubmitted() && $deleteForm->isValid())
-        {
-            $deleteClient = $this->getDoctrine()->getManager();
-            $deleteClient->remove($client);
-            $deleteClient->flush();
-
-            return $this->redirectToRoute('bile_mo_accueil_page');
-        }
-
-        return $this->render('@BileMo/Client/accountUser.html.twig', ['accountUser' => $userClient, 'deleteClient' => $deleteForm->createView()]);
+        return $client;
     }
 
     /**
-     * @Route("/api/add_client", name="bile_mo_add_client_page")
+     * Deletes a Client linked to the User
+     *
+     * Access to the API with Token generated from the ApiKey on the route => /api/token
+     *
+     * @Rest\Delete("/api/client/{id}", name="bile_mo_client_remove")
+     *
+     * @SWG\Parameter(
+     *     name="Authorization",
+     *     in="header",
+     *     type="string",
+     *     description="Bearer Token"
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="Deleting a Client",
+     *     in="body",
+     *     description="Deleting a Client linked to the User",
+     *     @Model(type=ClientType::class)
+     * )
+     *
+     * @SWG\Response(
+     *     response=204,
+     *     description="Deleting a Client linked to the User"
+     * )
+     *
+     * @SWG\Tag(name="Client")
+     * @Rest\View()
      */
-    public function addClientAction(UserInterface $user, Request $request)
+    public function removeAction(Client $client)
     {
+        $remove = $this->getDoctrine()->getManager();
+        $remove->remove($client);
+        $remove->flush();
+    }
+
+    /**
+     * Adding a Client linked to the User
+     *
+     * Access to the API with Token generated from the ApiKey on the route => /api/token
+     *
+     * @Rest\Post("/api/client", name="bile_mo_client_add")
+     *
+     * @SWG\Parameter(
+     *     name="Authorization",
+     *     in="header",
+     *     type="string",
+     *     description="Bearer Token"
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="Add a Customer",
+     *     in="body",
+     *     description="Add a Customer",
+     *     @Model(type=ClientType::class)
+     * )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Adding the Client linked to the User",
+     *     @SWG\Schema(
+     *     ref=@Model(type=Client::class)
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Client")
+     *
+     * @Rest\View(StatusCode = 201)
+     */
+    public function addAction(Request $request, UserInterface $user)
+    {
+        $data = $this->get('jms_serializer')->deserialize($request->getContent(), 'array', 'json');
         $client = new Client();
-        $form = $this->createForm(ClientType::class, $client);
-        $form->handleRequest($request);
+        $form = $this->get('form.factory')->create(ClientType::class, $client);
+        $form->submit($data);
+        $client->setUser($user);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $em = $this->getDoctrine()->getManager();
-            $client->setUser($user);
-            var_dump($client);
-            $em->persist($client);
-            $em->flush();
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($client);
+        $em->flush();
 
-            return $this->redirectToRoute('bile_mo_list_client_page');
-        }
-
-        return $this->render('@BileMo/Client/addClient.html.twig', ['addClient' => $form->createView()]);
+        return $this->view($client, Response::HTTP_CREATED, ['Location' => $this->generateUrl('bile_mo_client_show', ['id' => $client->getId()])]);
     }
 
     public function createDeleteForm(Client $client)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('bile_mo_client_account_page', ['id' => $client->getId()]))
+            ->setAction($this->generateUrl('bile_mo_client_show', ['id' => $client->getId()]))
             ->setMethod('DELETE')
             ->getForm();
     }
