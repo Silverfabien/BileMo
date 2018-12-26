@@ -10,9 +10,9 @@
     <hr>
     <div class="container">
         <p>
-            <button class="btn btn-warning" href="#Modification" title="Modifier ses informations" onclick="afficher_div_masque()">Modifier mon compte</button>
+            <button id="btn-modify" class="btn btn-warning" href="#Modification" title="Modifier ses informations">Modifier mon compte</button>
         </p>
-        <div id="edit" style="display: none">
+        <div id="edit">
             <div class="container">
                 <div class="row">
                     <h1>Modifier mon profil</h1>
@@ -27,13 +27,14 @@
             </div>
         </div>
     </div>
-
-    <!-- JAVASCRIPT -->
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
 
     <script type="text/javascript">
-        function afficher_div_masque() {
-            var divAccount = document.getElementById("edit");
-            divAccount.style.display = "block";
-        }
+        $('#edit').hide();
+        $('#btn-modify').click(function() {
+            $('#edit').toggle();
+        })
     </script>
 {% endblock %}
