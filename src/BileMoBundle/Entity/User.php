@@ -3,6 +3,7 @@
 namespace BileMoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -28,6 +29,8 @@ class User implements UserInterface
      *
      * @ORM\Column(name="username", type="string", length=255)
      * @Assert\NotBlank(message="Veuillez renseigné votre Pseudo")
+     *
+     * @SWG\Property(type="string", maxLength=255, description="Pseudo")
      */
     private $username;
 
@@ -35,6 +38,8 @@ class User implements UserInterface
      * @var string
      * @ORM\Column(name="email", type="string", length=255)
      * @Assert\NotBlank(message="Veuillez rensingé votre Email")
+     *
+     * @SWG\Property(type="string", maxLength=255, description="Email")
      */
     private $email;
 
@@ -42,6 +47,8 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=255)
+     *
+     * @SWG\Property(type="string", maxLength=255, description="Mot de Passe")
      */
     private $password;
 
@@ -178,6 +185,14 @@ class User implements UserInterface
     public function getApiKey()
     {
         return $this->apiKey;
+    }
+
+    /**
+     * @param string $apiKey
+     */
+    public function setApiKey($apiKey)
+    {
+        $this->apiKey = $apiKey;
     }
 
     public function getRoles()
