@@ -18,7 +18,8 @@ class ApiController extends Controller
     /**
      * Creating the token via the ApiKey in the User table
      *
-     * Recovery of the ApiKey in the User table and put in the X-AUTH-TOKEN header for the generation of the Token valid for a duration of 1 hour
+     * Recovery of the ApiKey in the User table and put in the X-AUTH-TOKEN header
+     * for the generation of the Token valid for a duration of 1 hour
      *
      * @Route("/api/token", name="bile_mo_api_token", methods={"GET"})
      *

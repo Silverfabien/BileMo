@@ -87,7 +87,9 @@ class ClientController extends FOSRestController
 
         if($client === null)
         {
-            throw new NotFoundHttpException('Erreur 404\r\n Une erreur est survenue, la page que vous avez demandé n\'existe pas');
+            throw new NotFoundHttpException(
+                'Erreur 404\r\n Une erreur est survenue, la page que vous avez demandé n\'existe pas'
+            );
         }
 
         return $client;
@@ -174,7 +176,10 @@ class ClientController extends FOSRestController
         $em->persist($client);
         $em->flush();
 
-        return $this->view($client, Response::HTTP_CREATED, ['Location' => $this->generateUrl('bile_mo_client_show', ['id' => $client->getId()])]);
+        return $this->view(
+            $client, Response::HTTP_CREATED,
+            ['Location' => $this->generateUrl('bile_mo_client_show', ['id' => $client->getId()])]
+        );
     }
 
     public function createDeleteForm(Client $client)

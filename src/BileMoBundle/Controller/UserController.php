@@ -17,7 +17,9 @@ class UserController extends Controller
      */
     public function loginAction()
     {
-        $loginForm = $this->createForm(LoginType::class, ['username' => $this->get('security.authentication_utils')->getLastUsername()]);
+        $loginForm = $this->createForm(LoginType::class,
+            ['username' => $this->get('security.authentication_utils')->getLastUsername()]
+        );
 
         return $this->render('@BileMo/Default/login.html.twig', ['loginForm' => $loginForm->createView()]);
     }
@@ -49,7 +51,9 @@ class UserController extends Controller
             return $this->redirectToRoute('bile_mo_login', ['id' => $user->getId()]);
         }
 
-        return $this->render('@BileMo/Default/register.html.twig', ['user' => $user, 'registerForm' => $form->createView()]);
+        return $this->render('@BileMo/Default/register.html.twig',
+            ['user' => $user, 'registerForm' => $form->createView()]
+        );
     }
 
     /**
@@ -82,6 +86,8 @@ class UserController extends Controller
             return $this->redirectToRoute('bile_mo_account_page', ['username' => $user->getUsername()]);
         }
 
-        return $this->render('@BileMo/Default/account.html.twig', ['edit_form' => $editForm->createView(), 'regenerate_api_key' => $regenerateApiKeyForm->createView()]);
+        return $this->render('@BileMo/Default/account.html.twig',
+            ['edit_form' => $editForm->createView(), 'regenerate_api_key' => $regenerateApiKeyForm->createView()]
+        );
     }
 }
