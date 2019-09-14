@@ -1,4 +1,4 @@
-# BileMo
+# BileMo [![Codacy Badge](https://api.codacy.com/project/badge/Grade/50dc16c502d840c8805336b79cfa2214)](https://www.codacy.com/manual/Silverfabien/BileMo?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Silverfabien/BileMo&amp;utm_campaign=Badge_Grade)
 
 1> Installation du Repository
 
